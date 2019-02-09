@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  servermanager:
+    image: ${DOCKER_REGISTRY-}servermanager
+    build:
+      context: .
+      dockerfile: ServerManager/Dockerfile

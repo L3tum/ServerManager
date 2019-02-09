@@ -1,0 +1,83 @@
+﻿@page
+@model ServerManager.Pages.ServersModel
+
+@{
+    Layout = null;
+}
+
+@if (Model.Layout == "table")
+{
+    <table class="table table-bordered" style="min-height: 200px">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Servers[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Servers[0].Online)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Servers[0].IP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Servers[0].Subnet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Servers[0].MAC)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Servers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Online)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subnet)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MAC)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success wake-server" data-server-id="@item.ID">Wake Up</button>
+                        <button type="button" class="btn btn-danger delete-server" data-server-id="@item.ID">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                <input id="server-name" class="box-input" placeholder="Name"/>
+            </td>
+            <td>
+                <label class="text-red">No</label>
+            </td>
+            <td>
+                <input id="server-ip" class="box-input" placeholder="IP"/>
+            </td>
+            <td>
+                <input id="server-subnet" class="box-input" placeholder="Subnet"/>
+            </td>
+            <td>
+                <input id="server-mac" class="box-input" placeholder="MAC"/>
+                <a class="d-block link" id="autofill-mac">Autofill MAC</a>
+            </td>
+            <td>
+                <button class="btn btn-success" id="submit">Submit</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+}

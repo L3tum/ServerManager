@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+@if (showBanner)
+{
+    <nav class="navbar navbar-nav navbar-light bg-light fixed-bottom" id="cookieConsent" role="alert">
+        <div class="container justify-content-between">
+            <p class="navbar-text">
+                We use Cookies for nothing but still want to annoy you.
+            </p>
+            <div class="navbar-right">
+                <a href="//en.wikipedia.org/wiki/Cookie" class="btn btn-info">Learn More</a>
+                <button type="button" class="btn btn-default" data-cookie-string="@cookieString">Accept</button>
+            </div>
+        </div>
+    </nav>
+    <script>
+        (function() {
+            document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click",
+                function(el) {
+                    document.cookie = el.target.dataset.cookieString;
+                    document.querySelector("#cookieConsent").classList.add("hidden");
+                },
+                false);
+        })();
+    </script>
+}
