@@ -1,6 +1,12 @@
 version: 1.0.{build}
 image: Visual Studio 2017
+image: Ubuntu
 
+environment:
+  matrix:
+    - ARCH: arm
+    - ARCH: amd64
+    
 install:
   - docker version
 

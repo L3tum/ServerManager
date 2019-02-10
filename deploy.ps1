@@ -24,30 +24,29 @@ $auth64 = [Convert]::ToBase64String($auth)
 }
 "@ | Out-File -Encoding Ascii ~/.docker/config.json
 
-$os = If ($isWindows) {"windows"} Else {"linux"}
-docker tag riase:windows-amd64 "$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME"
-docker tag riase:windows-arm "$($image):windows-arm-$env:APPVEYOR_REPO_TAG_NAME"
-docker tag riase:linux-amd64 "$($image):linux-amd64-$env:APPVEYOR_REPO_TAG_NAME"
-docker tag riase:linux-arm "$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME"
-docker push "$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME"
-docker push "$($image):windows-arm-$env:APPVEYOR_REPO_TAG_NAME"
-docker push "$($image):linux-amd64-$env:APPVEYOR_REPO_TAG_NAME"
-docker push "$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME"
+$os = If($isWindows){"windows"} Else {"linux"}
 
+docker tag riase "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
+docker push "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 
-docker -D manifest create "$($image):$env:APPVEYOR_REPO_TAG_NAME" `
-  "$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
-  "$($image):windows-arm-$env:APPVEYOR_REPO_TAG_NAME" `
-  "$($image):linux-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
-  "$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME"
-#docker manifest annotate "$($image):$env:APPVEYOR_REPO_TAG_NAME" "$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME" --os linux --arch arm --variant v6
-#docker manifest annotate "$($image):$env:APPVEYOR_REPO_TAG_NAME" "$($image):linux-arm64-$env:APPVEYOR_REPO_TAG_NAME" --os linux --arch arm64 --variant v8
-docker manifest push "$($image):$env:APPVEYOR_REPO_TAG_NAME"
-
-Write-Host "Pushing manifest $($image):latest"
-docker -D manifest create "$($image):latest" `
-  "$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
-  "$($image):windows-arm-$env:APPVEYOR_REPO_TAG_NAME" `
-  "$($image):linux-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
-  "$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME"
-docker manifest push "$($image):latest"
+if(!$isWindows){
+	# Last in build matrix, gets to push the manifest
+	if($env:ARCH -eq "amd64") {
+		docker -D manifest create "$($image):$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):windows-arm-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):linux-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME"
+		#docker manifest annotate "$($image):$env:APPVEYOR_REPO_TAG_NAME" "$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME" --os linux --arch arm --variant v6
+		#docker manifest annotate "$($image):$env:APPVEYOR_REPO_TAG_NAME" "$($image):linux-arm64-$env:APPVEYOR_REPO_TAG_NAME" --os linux --arch arm64 --variant v8
+		docker manifest push "$($image):$env:APPVEYOR_REPO_TAG_NAME"
+		
+		Write-Host "Pushing manifest $($image):latest"
+		docker -D manifest create "$($image):latest" `
+		"$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):windows-arm-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):linux-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME"
+		docker manifest push "$($image):latest"
+	}
+}

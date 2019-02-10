@@ -4,7 +4,7 @@ docker rm -f riasetest
 
 $ErrorActionPreference = 'Stop';
 Write-Host Starting container
-docker run --name riasetest -d riase:windows-amd64
+docker run --name riasetest -d riase
 Start-Sleep 10
 
 docker logs riasetest
