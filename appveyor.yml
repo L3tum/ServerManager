@@ -54,16 +54,12 @@ test_script:
 deploy_script:
   - ps: ./deploy.ps1
   
-artifacts:
-  - path: ServerManager/bin/Release/netcoreapp2.1/publish
-    name: Application
-    type: zip
 deploy:
   - provider: GitHub
     auth_token:
       secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
     force_update: true
-    artifcat: Application
+    artifcat: ServerManager.zip
     release: ServerManager-$(APPVEYOR_REPO_TAG_NAME)
     draft: false
     prerelease: false

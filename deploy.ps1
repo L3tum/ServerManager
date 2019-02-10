@@ -86,5 +86,8 @@ if ($isWindows) {
 		docker manifest annotate "$($image):$env:APPVEYOR_REPO_TAG_NAME" "$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME" --os linux --arch arm --variant v6
 		docker manifest annotate "$($image):$env:APPVEYOR_REPO_TAG_NAME" "$($image):linux-arm64-$env:APPVEYOR_REPO_TAG_NAME" --os linux --arch arm64 --variant v8
 		docker manifest push "$($image):latest"
+		
+		Compress-Archive -Path /home/appveyor/projects/servermanager/servermanager/bin/Release/netcoreapp2.1/publish -DestinationPath /home/appveyor/projects/servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip
+		Push-AppveyorArtifact /home/appveyor/projects/servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip -DeploymentName ServerManager.zip
 	}
 }
