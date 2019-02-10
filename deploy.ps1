@@ -60,7 +60,7 @@ if ($isWindows) {
 		
 		Write-Host "Building Project"
 		
-		dotnet publish ServerManager -c Release --force --manifest ServerManager/Properties/PublishProfiles/FolderProfile.pubxml -v minimal -o C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\publish
+		dotnet publish ServerManager -c Release --force --manifest Properties/PublishProfiles/FolderProfile.pubxml -v minimal -o C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\publish
 		
 		# Collect artifacts
 		
@@ -106,7 +106,7 @@ if ($isWindows) {
 		
 		Write-Host "Doing git stuff"
 		
-		git checkout master
+		# git checkout master
 		
 		# Generate Changelog (FIXME: currently not working since Node version is too low)
 		#npm i changelog-maker -g
@@ -123,6 +123,5 @@ if ($isWindows) {
 		#git push -f origin master
 		git checkout -b $env:APPVEYOR_REPO_TAG_NAME master
 		git push --set-upstream origin $env:APPVEYOR_REPO_TAG_NAME
-		git checkout master
 	}
 }
