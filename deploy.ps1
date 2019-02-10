@@ -60,7 +60,7 @@ if ($isWindows) {
 		
 		Write-Host "Building Project"
 		
-		dotnet publish ServerManager -c Release --force --manifest Properties/PublishProfiles/FolderProfile.pubxml -v minimal -o C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\publish
+		dotnet publish ServerManager -c Release --force -f netcoreapp2.1 -v minimal -o C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\publish
 		
 		# Collect artifacts
 		
