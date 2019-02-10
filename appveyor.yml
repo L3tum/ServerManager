@@ -34,6 +34,8 @@ environment:
     secure: aWWvOk1BRRRvZN9wg/Rgag==
   DOCKER_PASS:
     secure: qPnE3V4kK9N1gkeUT1itBQ==
+  GITHUB_TOKEN:
+    secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
 
 matrix:
   exclude:
@@ -53,16 +55,3 @@ test_script:
 
 deploy_script:
   - ps: ./deploy.ps1
-  
-deploy:
-  - provider: GitHub
-    auth_token:
-      secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
-    force_update: true
-    artifcat: ServerManager.zip
-    release: ServerManager-$(APPVEYOR_REPO_TAG_NAME)
-    draft: false
-    prerelease: false
-    on:
-      branch: master
-      APPVEYOR_PUSH: yes
