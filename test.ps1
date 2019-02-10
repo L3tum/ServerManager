@@ -1,14 +1,14 @@
 $ErrorActionPreference = 'SilentlyContinue';
-docker kill riasetest
-docker rm -f riasetest
+docker kill servermanagertest
+docker rm -f servermanagertest
 
 $ErrorActionPreference = 'Stop';
 Write-Host Starting container
-docker run --name riasetest -d riase
+docker run --name servermanagertest -d servermanager
 Start-Sleep 10
 
-docker logs riasetest
+docker logs servermanagertest
 
 $ErrorActionPreference = 'SilentlyContinue';
-docker kill riasetest
-docker rm -f riasetest
+docker kill servermanagertest
+docker rm -f servermanagertest

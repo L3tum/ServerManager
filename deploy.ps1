@@ -5,7 +5,7 @@ if (! (Test-Path Env:\APPVEYOR_REPO_TAG_NAME)) {
   exit 0
 }
 
-$image = "l3tum/riase"
+$image = "l3tum/servermanager"
 
 Write-Host Starting deploy
 if (!(Test-Path ~/.docker)) { mkdir ~/.docker }
@@ -26,7 +26,7 @@ $auth64 = [Convert]::ToBase64String($auth)
 
 $os = If($isWindows){"windows"} Else {"linux"}
 
-docker tag riase "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
+docker tag servermanager "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 docker push "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 
 if ($isWindows) {
