@@ -6,8 +6,8 @@ image:
 environment:
   matrix:
     - ARCH: arm
-    - ARCH: amd64
     - ARCH: arm64
+    - ARCH: amd64
 
 matrix:
   exclude:
