@@ -29,7 +29,32 @@ $os = If($isWindows){"windows"} Else {"linux"}
 docker tag riase "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 docker push "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 
-if(!$isWindows){
+if ($isWindows) {
+	if($env:ARCH -eq "amd64") {
+		# Windows
+		Write-Host "Rebasing image to produce 1709 variant"
+		npm install -g rebase-docker-image
+		rebase-docker-image `
+		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
+		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1709" `
+		-b microsoft/nanoserver:1709
+		
+		Write-Host "Rebasing image to produce 1803 variant"
+		npm install -g rebase-docker-image
+		rebase-docker-image `
+		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
+		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1803" `
+		-b microsoft/nanoserver:1803
+		
+		Write-Host "Rebasing image to produce 1809 variant"
+		npm install -g rebase-docker-image
+		rebase-docker-image `
+		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
+		-s microsoft/nanoserver:sac2016 `
+		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1809" `
+		-b stefanscherer/nanoserver:10.0.17763.253
+	}
+} else {
 	# Last in build matrix, gets to push the manifest
 	if($env:ARCH -eq "amd64") {
 		docker -D manifest create "$($image):$env:APPVEYOR_REPO_TAG_NAME" `

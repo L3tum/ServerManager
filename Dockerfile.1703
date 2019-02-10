@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1809 AS base
+FROM microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-sac2016 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
