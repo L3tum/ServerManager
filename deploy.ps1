@@ -38,8 +38,7 @@ if ($isWindows) {
 		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
 		-s microsoft/nanoserver:sac2016 `
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1709" `
-		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1709 `
-		-v
+		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1709
 		
 		Write-Host "Rebasing image to produce 1803 variant"
 		npm install -g rebase-docker-image
@@ -47,8 +46,7 @@ if ($isWindows) {
 		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
 		-s microsoft/nanoserver:sac2016 `
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1803" `
-		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1803 `
-		-v
+		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1803
 		
 		Write-Host "Rebasing image to produce 1809 variant"
 		npm install -g rebase-docker-image
@@ -56,8 +54,27 @@ if ($isWindows) {
 		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
 		-s microsoft/nanoserver:sac2016 `
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1809" `
-		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1809 `
-		-v
+		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1809
+		
+		# Build as-is
+		
+		Write-Host "Building Project"
+		
+		dotnet publish ServerManager -c Release --force --manifest ServerManager/Properties/PublishProfiles/FolderProfile.pubxml -v minimal -o C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\publish
+		
+		# Collect artifacts
+		
+		Write-Host "Collecting Artifacts"
+		
+		Compress-Archive -Path C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/publish -DestinationPath C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip
+		Push-AppveyorArtifact C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip -DeploymentName ServerManager.zip
+		
+		# Publish release
+		
+		Write-Host "Publishing Github Release"
+		 
+		npm install -g publish-release changelog-maker
+		publish-release --token $env:GITHUB_TOKEN --owner L3tum --repo ServerManager --name v$env:APPVEYOR_REPO_TAG_NAME --reuseRelease --assets C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip --notes $(changelog-maker L3tum ServerManager)
 	}
 } else {
 	# Last in build matrix, gets to push the manifest
@@ -89,39 +106,23 @@ if ($isWindows) {
 		
 		Write-Host "Doing git stuff"
 		
-		# Generate Changelog
-		npm i changelog-maker -g
+		git checkout master
 		
-		changelog-maker L3tum ServerManager >> /home/appveyor/projects/servermanager/Changelog.md
+		# Generate Changelog (FIXME: currently not working since Node version is too low)
+		#npm i changelog-maker -g
+		
+		#changelog-maker L3tum ServerManager >> /home/appveyor/projects/servermanager/Changelog.md
 		
 		git config --global credential.helper store
 		Add-Content "$HOME\.git-credentials" "https://$($env:GITHUB_TOKEN):x-oauth-basic@github.com`n"
 		
 		# Push changelog, generate release branch, push it, go back to master
 		
-		git push
-		git checkout -b release-$env:APPVEYOR_REPO_TAG_NAME master
-		git push
+		#git add /home/appveyor/projects/servermanager/Changelog.md
+		#git commit -m "Updated Changelog"
+		#git push -f origin master
+		git checkout -b $env:APPVEYOR_REPO_TAG_NAME master
+		git push --set-upstream origin $env:APPVEYOR_REPO_TAG_NAME
 		git checkout master
-		
-		# Build as-is
-		
-		Write-Host "Building Project"
-		
-		dotnet publish ServerManager -c Release --force --manifest ServerManager/Properties/PublishProfiles/FolderProfile.pubxml -v minimal -o /home/appveyor/projects/servermanager/servermanager/bin/Release/netcoreapp2.1/publish
-		
-		# Collect artifacts
-		
-		Write-Host "Collecting Artifacts"
-		
-		Compress-Archive -Path /home/appveyor/projects/servermanager/servermanager/bin/Release/netcoreapp2.1/publish -DestinationPath /home/appveyor/projects/servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip
-		Push-AppveyorArtifact /home/appveyor/projects/servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip -DeploymentName ServerManager.zip
-		
-		# Publish release
-		
-		Write-Host "Publishing Github Release"
-		 
-		npm install -g publish-release
-		publish-release --token $env:GITHUB_TOKEN --owner L3tum --repo ServerManager --name ServerManager-v$env:APPVEYOR_REPO_TAG_NAME --reuseRelease --assets /home/appveyor/projects/servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip --notes $(changelog-maker L3tum ServerManager)
 	}
 }
