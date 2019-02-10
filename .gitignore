@@ -3,3 +3,4 @@ obj/**
 ServerManager/bin/**
 ServerManager/obj/**
 ServerManager/node_modules/**
+*.gz
