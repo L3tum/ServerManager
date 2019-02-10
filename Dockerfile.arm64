@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:3.0-preview2-aspnetcore-runtime-stretch-slim-arm64v8 AS base
+FROM microsoft/dotnet:3.0-aspnetcore-runtime-stretch-slim-arm64v8 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
