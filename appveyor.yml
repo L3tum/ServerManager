@@ -1,4 +1,23 @@
 version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+
+  
 image: 
   - Visual Studio 2017
   - Ubuntu
@@ -11,6 +30,10 @@ environment:
   global:
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOCKER_USER:
+    secure: aWWvOk1BRRRvZN9wg/Rgag==
+  DOCKER_PASS:
+    secure: qPnE3V4kK9N1gkeUT1itBQ==
 
 matrix:
   exclude:
@@ -30,3 +53,20 @@ test_script:
 
 deploy_script:
   - ps: ./deploy.ps1
+  
+artifacts:
+  - path: ServerManager/bin/Release/netcoreapp2.1/publish
+    name: Application
+    type: zip
+deploy:
+  - provider: GitHub
+    auth_token:
+      secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
+    force_update: true
+    artifcat: Application
+    release: ServerManager-$(APPVEYOR_REPO_TAG_NAME)
+    draft: false
+    prerelease: false
+    on:
+      branch: master
+      APPVEYOR_PUSH: yes
