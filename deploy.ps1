@@ -72,6 +72,8 @@ if ($isWindows) {
 		# Publish release
 		
 		Write-Host "Publishing Github Release"
+		
+		Install-Product node ''
 		 
 		npm install -g publish-release changelog-maker
 		publish-release --token $env:GITHUB_TOKEN --owner L3tum --repo ServerManager --name v$env:APPVEYOR_REPO_TAG_NAME --reuseRelease --assets C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip --notes $(changelog-maker L3tum ServerManager)
@@ -106,21 +108,22 @@ if ($isWindows) {
 		
 		Write-Host "Doing git stuff"
 		
-		# git checkout master
+		git checkout master
 		
-		# Generate Changelog (FIXME: currently not working since Node version is too low)
-		#npm i changelog-maker -g
+		# Generate Changelog
 		
-		#changelog-maker L3tum ServerManager >> /home/appveyor/projects/servermanager/Changelog.md
+		Install-Product node ''
+		npm i changelog-maker -g
+		changelog-maker L3tum ServerManager >> /home/appveyor/projects/servermanager/Changelog.md
 		
 		git config --global credential.helper store
 		Add-Content "$HOME\.git-credentials" "https://$($env:GITHUB_TOKEN):x-oauth-basic@github.com`n"
 		
 		# Push changelog, generate release branch, push it, go back to master
 		
-		#git add /home/appveyor/projects/servermanager/Changelog.md
-		#git commit -m "Updated Changelog"
-		#git push -f origin master
+		git add /home/appveyor/projects/servermanager/Changelog.md
+		git commit -m "Updated Changelog"
+		git push -f origin master
 		git checkout -b $env:APPVEYOR_REPO_TAG_NAME master
 		git push --set-upstream origin $env:APPVEYOR_REPO_TAG_NAME
 	}
