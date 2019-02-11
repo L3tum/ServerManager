@@ -26,7 +26,7 @@ if ($isWindows) {
 		Compress-Archive -Path /home/appveyor/projects/servermanager/ServerManager/bin/Release/netcoreapp2.1/publish -DestinationPath /home/appveyor/projects/servermanager/ServerManager/bin/Release/netcoreapp2.1/ServerManager.zip
 		Push-AppveyorArtifact /home/appveyor/projects/servermanager/ServerManager/bin/Release/netcoreapp2.1/ServerManager.zip -DeploymentName ServerManager.zip
 		
-		[Environment]::SetEnvironmentVariable("DEPLOY_GITHUB", true, "Machine")
+		[Environment]::SetEnvironmentVariable("DEPLOY_GITHUB", "true", "Machine")
 	}
 }
 

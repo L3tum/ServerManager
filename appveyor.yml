@@ -68,4 +68,4 @@ deploy:
   prerelease: false
   on:
     branch: master                 # release from master branch only
-    DEPLOY_GITHUB: true
+    DEPLOY_GITHUB: "true"
