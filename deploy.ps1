@@ -73,10 +73,10 @@ if ($isWindows) {
 		
 		Write-Host "Publishing Github Release"
 		
-		Install-Product node ''
-		 
-		npm install -g publish-release
-		publish-release --token $env:GITHUB_TOKEN --owner L3tum --repo ServerManager --name v$env:APPVEYOR_REPO_TAG_NAME --reuseRelease --assets C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip
+		go get github.com/aktau/github-release
+		
+		github-release release --user L3tum --repo ServerManager --tag $env:APPVEYOR_REPO_TAG_NAME --name $env:APPVEYOR_REPO_TAG_NAME
+		github-release upload --user L3tum --repo ServerManager --tag $env:APPVEYOR_REPO_TAG_NAME --name $env:APPVEYOR_REPO_TAG_NAME --file C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\ServerManager.zip
 	}
 } else {
 	# Last in build matrix, gets to push the manifest
@@ -108,21 +108,22 @@ if ($isWindows) {
 		
 		Write-Host "Doing git stuff"
 		
-		git checkout master
+		#git checkout master
 		
 		# Generate Changelog
-		
-		npm i auto-changelog -g
-		auto-changelog --commit-limit false --output /home/appveyor/projects/servermanager/Changelog.md
 		
 		git config --global credential.helper store
 		Add-Content "$HOME\.git-credentials" "https://$($env:GITHUB_TOKEN):x-oauth-basic@github.com`n"
 		
+		#go get -u github.com/git-chglog/git-chglog/cmd/git-chglog
+		
+		#git-chglog -o /home/appveyor/projects/servermanager/Changelog.md
+		
 		# Push changelog, generate release branch, push it, go back to master
 		
-		git add /home/appveyor/projects/servermanager/Changelog.md
-		git commit -m "Updated Changelog"
-		git push -f origin master
+		#git add /home/appveyor/projects/servermanager/Changelog.md
+		#git commit -m "Updated Changelog"
+		#git push -f origin master
 		git checkout -b $env:APPVEYOR_REPO_TAG_NAME master
 		git push --set-upstream origin $env:APPVEYOR_REPO_TAG_NAME
 	}
