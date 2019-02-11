@@ -1,9 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your Javascript code.
-
-var template = "<div class='row'>[server1][server2]</div>";
+﻿var template = "<div class='row'>[server1][server2]</div>";
 var serverTemplate = "<div class='col-md-6 col-sm-12'><h2>[name]</h2></div>"
 
 var refresh = function() {

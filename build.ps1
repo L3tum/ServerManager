@@ -13,7 +13,7 @@ if ($isWindows) {
 	} else {
 		docker build -t servermanager -f Dockerfile.alpine .
 		
-		# Build as-is
+		# Build as-is (we do that on the Linux AMD64 Build and not Windows because the Windows build takes long enough)
 		
 		Write-Host "Building Project"
 		
@@ -25,8 +25,6 @@ if ($isWindows) {
 		
 		Compress-Archive -Path /home/appveyor/projects/servermanager/ServerManager/bin/Release/netcoreapp2.1/publish -DestinationPath /home/appveyor/projects/servermanager/ServerManager/bin/Release/netcoreapp2.1/ServerManager.zip
 		Push-AppveyorArtifact /home/appveyor/projects/servermanager/ServerManager/bin/Release/netcoreapp2.1/ServerManager.zip -DeploymentName ServerManager.zip
-		
-		[Environment]::SetEnvironmentVariable("DEPLOY_GITHUB", "true", "Machine")
 	}
 }
 
