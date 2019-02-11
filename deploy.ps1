@@ -73,10 +73,10 @@ if ($isWindows) {
 		
 		Write-Host "Publishing Github Release"
 		
-		go get github.com/aktau/github-release
+		go get github.com/itchio/gothub
 		
-		github-release release --user L3tum --repo ServerManager --tag $env:APPVEYOR_REPO_TAG_NAME --name $env:APPVEYOR_REPO_TAG_NAME
-		github-release upload --user L3tum --repo ServerManager --tag $env:APPVEYOR_REPO_TAG_NAME --name $env:APPVEYOR_REPO_TAG_NAME --file C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\ServerManager.zip
+		$GOPATH/bin/gothub release --user L3tum --repo ServerManager --tag $env:APPVEYOR_REPO_TAG_NAME --name $env:APPVEYOR_REPO_TAG_NAME
+		$GOPATH/bin/gothub upload --user L3tum --repo ServerManager --tag $env:APPVEYOR_REPO_TAG_NAME --name "ServerManager.zip" --file C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\ServerManager.zip --replace
 	}
 } else {
 	# Last in build matrix, gets to push the manifest
