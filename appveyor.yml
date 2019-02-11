@@ -36,6 +36,7 @@ environment:
     secure: qPnE3V4kK9N1gkeUT1itBQ==
   GITHUB_TOKEN:
     secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
+  DEPLOY_GITHUB: false
 
 matrix:
   exclude:
@@ -55,3 +56,16 @@ test_script:
 
 deploy_script:
   - ps: ./deploy.ps1
+  
+deploy:
+  release: v$(appveyor_build_version)
+  description: 'Release'
+  provider: GitHub
+  auth_token:
+    secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
+  artifact: C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\ServerManager.zip
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    DEPLOY_GITHUB: true

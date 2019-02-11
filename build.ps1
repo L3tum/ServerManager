@@ -12,6 +12,21 @@ if ($isWindows) {
 		docker build -t servermanager -f Dockerfile.arm64 .
 	} else {
 		docker build -t servermanager -f Dockerfile.alpine .
+		
+		# Build as-is
+		
+		Write-Host "Building Project"
+		
+		dotnet publish ServerManager -c Release --force -f netcoreapp2.1 -v minimal -o C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\publish
+		
+		# Collect artifacts
+		
+		Write-Host "Collecting Artifacts"
+		
+		Compress-Archive -Path C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/publish -DestinationPath C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip
+		Push-AppveyorArtifact C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip -DeploymentName ServerManager.zip
+		
+		$env:DEPLOY_GITHUB = true
 	}
 }
 

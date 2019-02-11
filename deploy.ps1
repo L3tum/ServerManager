@@ -55,28 +55,6 @@ if ($isWindows) {
 		-s microsoft/nanoserver:sac2016 `
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1809" `
 		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1809
-		
-		# Build as-is
-		
-		Write-Host "Building Project"
-		
-		dotnet publish ServerManager -c Release --force -f netcoreapp2.1 -v minimal -o C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\publish
-		
-		# Collect artifacts
-		
-		Write-Host "Collecting Artifacts"
-		
-		Compress-Archive -Path C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/publish -DestinationPath C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip
-		Push-AppveyorArtifact C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip -DeploymentName ServerManager.zip
-		
-		# Publish release
-		
-		Write-Host "Publishing Github Release"
-		
-		go get github.com/itchio/gothub
-		
-		$GOPATH/bin/gothub release --user L3tum --repo ServerManager --tag $env:APPVEYOR_REPO_TAG_NAME --name $env:APPVEYOR_REPO_TAG_NAME
-		$GOPATH/bin/gothub upload --user L3tum --repo ServerManager --tag $env:APPVEYOR_REPO_TAG_NAME --name "ServerManager.zip" --file C:\projects\servermanager\servermanager\bin\Release\netcoreapp2.1\ServerManager.zip --replace
 	}
 } else {
 	# Last in build matrix, gets to push the manifest
