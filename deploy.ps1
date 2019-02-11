@@ -75,8 +75,8 @@ if ($isWindows) {
 		
 		Install-Product node ''
 		 
-		npm install -g publish-release changelog-maker
-		publish-release --token $env:GITHUB_TOKEN --owner L3tum --repo ServerManager --name v$env:APPVEYOR_REPO_TAG_NAME --reuseRelease --assets C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip --notes $(changelog-maker L3tum ServerManager)
+		npm install -g publish-release
+		publish-release --token $env:GITHUB_TOKEN --owner L3tum --repo ServerManager --name v$env:APPVEYOR_REPO_TAG_NAME --reuseRelease --assets C:\projects\servermanager/servermanager/bin/Release/netcoreapp2.1/ServerManager.zip
 	}
 } else {
 	# Last in build matrix, gets to push the manifest
@@ -112,9 +112,8 @@ if ($isWindows) {
 		
 		# Generate Changelog
 		
-		Install-Product node ''
-		npm i changelog-maker -g
-		changelog-maker L3tum ServerManager >> /home/appveyor/projects/servermanager/Changelog.md
+		npm i auto-changelog -g
+		auto-changelog --commit-limit false --output /home/appveyor/projects/servermanager/Changelog.md
 		
 		git config --global credential.helper store
 		Add-Content "$HOME\.git-credentials" "https://$($env:GITHUB_TOKEN):x-oauth-basic@github.com`n"
