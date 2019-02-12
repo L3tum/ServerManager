@@ -5,7 +5,7 @@ EXPOSE 443
 ENV DATABASE_TYPE="INMEMORY"
 ENV DATABASE_URL=""
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
 COPY ["ServerManager/ServerManager.csproj", "ServerManager/"]
 RUN dotnet restore "ServerManager/ServerManager.csproj"

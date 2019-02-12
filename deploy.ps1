@@ -38,7 +38,7 @@ if ($isWindows) {
 		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
 		-s microsoft/nanoserver:sac2016 `
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1709" `
-		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1709
+		-b microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1709
 		
 		Write-Host "Rebasing image to produce 1803 variant"
 		npm install -g rebase-docker-image
@@ -46,7 +46,7 @@ if ($isWindows) {
 		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
 		-s microsoft/nanoserver:sac2016 `
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1803" `
-		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1803
+		-b microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1803
 		
 		Write-Host "Rebasing image to produce 1809 variant"
 		npm install -g rebase-docker-image
@@ -54,7 +54,7 @@ if ($isWindows) {
 		"$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME" `
 		-s microsoft/nanoserver:sac2016 `
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1809" `
-		-b microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1809
+		-b microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1809
 	}
 } else {
 	# Last in build matrix, gets to push the manifest

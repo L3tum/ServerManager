@@ -37,7 +37,7 @@ environment:
     secure: qPnE3V4kK9N1gkeUT1itBQ==
   GITHUB_TOKEN:
     secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
-  APPVEYOR_REPO_TAG_NAME: 1.0.0
+  APPVEYOR_REPO_TAG_NAME: 1.1.0
 
 matrix:
   exclude:
@@ -64,7 +64,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
-  artifact: ServerManager.zip
+  artifact: /ServerManager-*\.zip/
   draft: false
   prerelease: false
   on:
