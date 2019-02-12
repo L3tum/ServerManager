@@ -1,11 +1,15 @@
 $ErrorActionPreference = 'Stop';
+$image = "l3tum/servermanager"
+$os = If($isWindows){"windows"} Else {"linux"}
 
-if (! (Test-Path Env:\DEPLOY)) {
+
+$imageID = docker images -q "$image:$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
+
+# Branch is not master, it is a pull request into master (otherwise previous would fail), or image already exists
+if (! ($env:APPVEYOR_REPO_BRANCH -eq "master") -Or Test-Path $env:APPVEYOR_PULL_REQUEST_NUMBER -Or $env:APPVEYOR_PULL_REQUEST_NUMBER -Or $imageID) {
   Write-Host "Skip publishing."
   exit 0
 }
-
-$image = "l3tum/servermanager"
 
 Write-Host Starting deploy
 if (!(Test-Path ~/.docker)) { mkdir ~/.docker }
@@ -23,8 +27,6 @@ $auth64 = [Convert]::ToBase64String($auth)
   "experimental": "enabled"
 }
 "@ | Out-File -Encoding Ascii ~/.docker/config.json
-
-$os = If($isWindows){"windows"} Else {"linux"}
 
 docker tag servermanager "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 docker push "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"

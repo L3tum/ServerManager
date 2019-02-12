@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: {APPVEYOR_REPO_TAG_NAME}-{build}
 pull_requests:
   do_not_increment_build_number: true
   
@@ -70,5 +70,5 @@ deploy:
   on:
     branch: master                 # release from master branch only
     ARCH: amd64
-    DEPLOY: "yes"
     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+    APPVEYOR_PULL_REQUEST_NUMBER: ""
