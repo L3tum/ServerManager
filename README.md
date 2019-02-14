@@ -31,7 +31,7 @@ Currently supported are:
 	
 ### Hosted
 
-ServerManager is an ASP.Net Core 2.1 Application, so it will run on any host where you have .Net Core >2.1 installed. 
+ServerManager is an ASP.Net Core 2.2 Application, so it will run on any host where you have .Net Core >2.2 installed. 
 You can download the ServerManager.zip file in the release tab and execute it as any other dotnet program.
 
 With version 1.1.0 we also ship "pre-built" executables in their respective zip files for the following platforms:
@@ -64,7 +64,7 @@ As such, features may be implemented pretty slowly. I work full-time as well as 
 Anyways, a basic roadmap would consist of the following:
 
 - [ ] Upgrade to .Net Core 3.0 and with that also release Windows ARM Docker images
-- [ ] Different interface, with a "block" (col-md-6 for bootstrappers) for each Server
+- [x] Different interface, with a "block" (col-md-6 for bootstrappers) for each Server
 - [ ] Support for sending basic commands to the Server
 - [ ] Support for SSH in-browser
 - [ ] "Basic" management tools, such as open-port-scan and similar
