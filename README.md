@@ -1,5 +1,9 @@
 # ServerManager (https://github.com/L3tum/ServerManager)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/1syxxjejsjb7h4sq/branch/master)](https://ci.appveyor.com/project/L3tum/servermanager/branch/master)
+
+![Docker Pulls](https://img.shields.io/docker/pulls/l3tum/servermanager.svg?style=for-the-badge)
+
 ## Usage
 
 It works out of the box using an in-memory database. 
