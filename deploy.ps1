@@ -5,8 +5,8 @@ $os = If($isWindows){"windows"} Else {"linux"}
 
 $imageID = docker images -q "$image:$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 
-# Branch is not master, it is a pull request into master (otherwise previous would fail), or image already exists
-if (! ($env:APPVEYOR_REPO_BRANCH -eq "master") -Or Test-Path $env:APPVEYOR_PULL_REQUEST_NUMBER -Or $env:APPVEYOR_PULL_REQUEST_NUMBER -Or $imageID) {
+# Branch is not master, or image already exists.
+if (! ($env:APPVEYOR_REPO_BRANCH -eq "master") -Or $imageID) {
   Write-Host "Skip publishing."
   exit 0
 }

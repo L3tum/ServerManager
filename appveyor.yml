@@ -55,7 +55,7 @@ build_script:
 test_script:
   - ps: ./test.ps1
 
-deploy_script:
+after_test:
   - ps: ./deploy.ps1
   
 deploy:
