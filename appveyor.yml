@@ -64,7 +64,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
-  artifact: /ServerManager-*\.zip/
+  artifact: /ServerManager.*\.zip/
   draft: false
   prerelease: false
   on:
