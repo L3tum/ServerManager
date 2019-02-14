@@ -27,6 +27,26 @@ if ($isWindows) {
 		dotnet publish ServerManager -c Release -r ubuntu-x64 --self-contained false -o /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-ubuntu-x64
 		dotnet publish ServerManager -c Release -r osx-x64 --self-contained false -o /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-osx-x64
 		
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager/README.md
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-win-x64/README.md
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-win-x86/README.md
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-win-arm/README.md
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-win-arm64/README.md
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-linux-x64/README.md
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-debian-x64/README.md
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-ubuntu-x64/README.md
+		Copy-Item /home/appveyor/projects/servermanager/README.md /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-osx-x64/README.md
+		
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager/LICENSE
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-win-x64/LICENSE
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-win-x86/LICENSE
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-win-arm/LICENSE
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-win-arm64/LICENSE
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-linux-x64/LICENSE
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-debian-x64/LICENSE
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-ubuntu-x64/LICENSE
+		Copy-Item /home/appveyor/projects/servermanager/LICENSE /home/appveyor/projects/servermanager/ServerManager/bin/Release/ServerManager-osx-x64/LICENSE
+		
 		# Collect artifacts
 		
 		Write-Host "Collecting Artifacts"
