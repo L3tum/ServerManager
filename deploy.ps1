@@ -3,7 +3,7 @@ $image = "l3tum/servermanager"
 $os = If($isWindows){"windows"} Else {"linux"}
 
 
-$imageID = docker images -q "$image:$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
+$imageID = docker images -q "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 
 # Branch is not master, or image already exists.
 if (! ($env:APPVEYOR_REPO_BRANCH -eq "master") -Or $imageID) {
