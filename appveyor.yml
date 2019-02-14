@@ -1,4 +1,4 @@
-version: 1.1.0-{build}
+version: 1.2.0-{build}
 pull_requests:
   do_not_increment_build_number: true
   
@@ -37,7 +37,7 @@ environment:
     secure: qPnE3V4kK9N1gkeUT1itBQ==
   GITHUB_TOKEN:
     secure: 8TTYoYftaQU6mmYd6iPM9aRsxW7PHfxMsseIY5D2CrjXp02Pt7YOtwNH/LiMVmaq
-  APPVEYOR_REPO_TAG_NAME: 1.1.0
+  APPVEYOR_REPO_TAG_NAME: 1.2.0
 
 matrix:
   exclude:
