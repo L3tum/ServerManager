@@ -2,6 +2,27 @@
     margin-top: 50px;
 }
 
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.column-layout .box-input {
+    width: 100%;
+    margin: 5px;
+    margin-top: 20px;
+}
+
+.column-layout .btn-submit {
+    width: calc(100% - 15px);
+    margin: 5px;
+    margin-top: 20px;
+}
+
+.server-content .row {
+    margin-top: 10px;
+}
+
 .link {
     color: blue !important;
     cursor: pointer;

@@ -1,6 +1,12 @@
 ﻿var template = "<div class='row'>[server1][server2]</div>";
 var serverTemplate = "<div class='col-md-6 col-sm-12'><h2>[name]</h2></div>"
 
+$("#layoutSwitch").on("click",
+    () => {
+        refresh();
+    }
+);
+
 var refresh = function() {
     var focusedID = "";
     var name = "";
@@ -24,7 +30,9 @@ var refresh = function() {
         mac = $("#server-mac").val();
     }
 
-    $('#container').load("/Servers?layout=table",
+    var layout = $('#layoutSwitch').is(":checked") ? "table" : "column";
+
+    $('#container').load("/Servers?layout=" + layout,
         function() {
             $("#server-name").val(name);
             $("#server-ip").val(ip);
@@ -52,7 +60,7 @@ var refresh = function() {
                                 window.toastr.error("Server does not respond!");
                             }
                         }
-                    }).done(function (resp) {
+                    }).done(function(resp) {
                         $("#server-mac").val(resp);
                     }).fail(function(jqXHR, text, error) {
                         return window.toastr.error(text);

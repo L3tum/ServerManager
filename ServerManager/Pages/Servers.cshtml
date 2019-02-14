@@ -81,3 +81,81 @@
         </tbody>
     </table>
 }
+else
+{
+    <div class="row column-layout">
+        @foreach (var item in Model.Servers)
+        {
+            <div class="box box-default col-md-6 col-sm-12">
+                <div class="box-header">
+                    <div class="row">
+                        <div class="col-6">
+                            <h3 class="box-title">Server: @Html.DisplayFor(modelItem => item.Name)</h3>
+                        </div>
+                        <div class="col-6">
+                            <h3 class="box-title">
+                                Online:
+                                @if (item.Online)
+                                {
+                                    <span class="text-green">Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="text-red">No</span>
+                                }
+                            </h3>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="container box-body server-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            IP: @Html.DisplayFor(modelItem => item.IP)
+                        </div>
+                        <div class="col-md-6">
+                            Subnet: @Html.DisplayFor(modelItem => item.Subnet)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            MAC: @Html.DisplayFor(modelItem => item.MAC)
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success wake-server" data-server-id="@item.ID">Wake</button>
+                                <button type="button" class="btn btn-danger delete-server" data-server-id="@item.ID">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="box box-default col-md-6 col-sm-12">
+            <div class="container box-body">
+                <div class="row">
+                    <div class="col-12">
+                        <input id="server-name" class="box-input" placeholder="Name"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input id="server-ip" class="box-input" placeholder="IP"/>
+                    </div>
+                    <div class="col-md-6">
+                        <input id="server-subnet" class="box-input" placeholder="Subnet"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input id="server-mac" class="box-input" placeholder="MAC"/>
+                        <a class="d-block link" style="margin-left: 5px" id="autofill-mac">Autofill MAC</a>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success btn-submit" id="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
