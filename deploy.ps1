@@ -30,8 +30,6 @@ $auth64 = [Convert]::ToBase64String($auth)
 
 docker tag servermanager "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
 docker push "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME"
-docker tag servermanager "$($image):$os-$env:ARCH-latest"
-docker push "$($image):$os-$env:ARCH-latest"
 
 if ($isWindows) {
 	if($env:ARCH -eq "amd64") {
@@ -44,9 +42,6 @@ if ($isWindows) {
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1709" `
 		-b microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1709
 		
-		docker tag "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1709" "$($image):$os-$env:ARCH-latest-1709"
-		docker push "$($image):$os-$env:ARCH-latest-1709"
-		
 		Write-Host "Rebasing image to produce 1803 variant"
 		npm install -g rebase-docker-image
 		rebase-docker-image `
@@ -55,9 +50,6 @@ if ($isWindows) {
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1803" `
 		-b microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1803
 		
-		docker tag "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1709" "$($image):$os-$env:ARCH-latest-1803"
-		docker push "$($image):$os-$env:ARCH-latest-1803"
-		
 		Write-Host "Rebasing image to produce 1809 variant"
 		npm install -g rebase-docker-image
 		rebase-docker-image `
@@ -65,9 +57,6 @@ if ($isWindows) {
 		-s microsoft/nanoserver:sac2016 `
 		-t "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1809" `
 		-b microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1809
-		
-		docker tag "$($image):$os-$env:ARCH-$env:APPVEYOR_REPO_TAG_NAME-1709" "$($image):$os-$env:ARCH-latest-1809"
-		docker push "$($image):$os-$env:ARCH-latest-1809"
 	}
 } else {
 	# Last in build matrix, gets to push the manifest
@@ -86,15 +75,15 @@ if ($isWindows) {
 		
 		Write-Host "Pushing manifest $($image):latest"
 		docker -D manifest create "$($image):latest" `
-		"$($image):linux-amd64-latest" `
-		"$($image):linux-arm-latest" `
-		"$($image):linux-arm64-latest" `
-		"$($image):windows-amd64-latest" `
-		"$($image):windows-amd64-latest-1709" `
-		"$($image):windows-amd64-latest-1803" `
-		"$($image):windows-amd64-latest-1809"
-		docker manifest annotate "$($image):latest" "$($image):linux-arm-latest" --os linux --arch arm --variant v6
-		docker manifest annotate "$($image):latest" "$($image):linux-arm64-latest" --os linux --arch arm64 --variant v8
+		"$($image):linux-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):linux-arm64-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME" `
+		"$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME-1709" `
+		"$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME-1803" `
+		"$($image):windows-amd64-$env:APPVEYOR_REPO_TAG_NAME-1809"
+		docker manifest annotate "$($image):latest" "$($image):linux-arm-$env:APPVEYOR_REPO_TAG_NAME" --os linux --arch arm --variant v6
+		docker manifest annotate "$($image):latest" "$($image):linux-arm64-$env:APPVEYOR_REPO_TAG_NAME" --os linux --arch arm64 --variant v8
 		docker manifest push "$($image):latest"
 		
 		Write-Host "Doing git stuff"
@@ -116,6 +105,6 @@ if ($isWindows) {
 		#git commit -m "Updated Changelog"
 		#git push -f origin master
 		#git checkout -b $env:APPVEYOR_REPO_TAG_NAME master
-		g#it push --set-upstream origin $env:APPVEYOR_REPO_TAG_NAME
+		#git push --set-upstream origin $env:APPVEYOR_REPO_TAG_NAME
 	}
 }
